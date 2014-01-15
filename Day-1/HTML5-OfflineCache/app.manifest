@@ -1,0 +1,12 @@
+CACHE MANIFEST
+#VER 1.2
+CACHE:
+jquery-1.10.2.js
+TaskManager.js
+style.css
+
+NETWORK:
+*
+
+FALLBACK:
+style-online.css	style-offline.css

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en" manifest="app.manifest" >
+<head>
+	<meta charset="UTF-8">
+	<title>Task Manager</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="style-online.css">
+	<script src="jquery-1.10.2.js"></script>
+	<script src="TaskManager.js"></script>
+	<script>
+	//$(window.applicationCache).bind("updateready",function(){
+	window.applicationCache.addEventListener("updateready",function(){
+		$("#divUpdateReady").show();
+	});
+	$(function(){
+		$("#divUpdateReady").hide();	
+		$("#btnYes").click(function(){
+			window.location.reload();
+		});
+		$("#btnNo").click(function(){
+			$(this).parent('div').hide();
+		})
+	})
+	</script>
+</head>
+<body>
+	<h1>Task Manager - Ver 1.2</h1>
+	<span>Task :</span>
+	<input type="text" name="" id="txtTask">
+	<input type="button" value="Add Task" id="btnAddTask">
+	<input type="button" value="Remove Completed" id="btnRemoveCompleted">
+	<ul id="ulTaskList">
+		
+	</ul>
+	<div id="divUpdateReady">A new Version of the application is available. Do you want to refresh?<input type="button" value="  Yes  " id="btnYes"><input type="button" value="  No  " id="btnNo"></div>
+	<div id="divOfflineNote">*Offline</div>
+</body>
+</html>
