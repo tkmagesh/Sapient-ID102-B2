@@ -11,15 +11,8 @@ function getTaskStorage(){
 		return tasks;
 	}
 
-
-
 	function addTaskToStorage(taskName){
-		var taskId = new Date().getTime().toString();
-		var newTask = {
-			id : taskId,
-			name : taskName,
-			isCompleted : false
-		};
+		var newTask = new Task(taskName);
 		browserStore.setItem(newTask.id, JSON.stringify(newTask));
 		return newTask;
 	}
@@ -28,6 +21,7 @@ function getTaskStorage(){
 		var taskAsString = browserStore.getItem(taskId);
 		var task = JSON.parse(taskAsString);
 		task.isCompleted = !task.isCompleted;
+		//task.toggleCompletion();
 		browserStore.setItem(taskId,JSON.stringify(task));
 	}
 
