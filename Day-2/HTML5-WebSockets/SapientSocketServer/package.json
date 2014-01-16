@@ -1,0 +1,19 @@
+{
+  "name": "SapientSocketServer",
+  "version": "0.0.1",
+  "description": "A simple socket server for demonstrating web sockets",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "html5",
+    "websockets",
+    "demo"
+  ],
+  "author": "Magesh K",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "nodejs-websocket": "~0.1.2"
+  }
+}

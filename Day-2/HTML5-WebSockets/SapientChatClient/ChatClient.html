@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Chat Client</title>
+	<script>
+	(function(){
+		window.addEventListener("DOMContentLoaded",init);
+		var socket;
+
+		function onSocketMessage(msgEvt){
+			displayMessage(msgEvt.data);
+		}
+		function displayMessage(msg){
+			var msgObj = JSON.parse(msg);
+			if (msgObj.type === "loginResponse"){
+				for(var i=0;i<msgObj.currentUsers.length;i++)
+					addNewUser(msgObj.currentUsers[i]);
+			}
+			if (msgObj.type === "login"){
+				addNewUser(msgObj.loginName);
+			}
+			if (msgObj.type === "transaction"){
+				document.getElementById("divMessages").innerHTML += msgObj.content + "<br/>";
+			}
+		}
+		function addNewUser(loginName){
+			var newOption = document.createElement("option");
+			newOption.setAttribute("value",loginName);
+			newOption.innerText = loginName;
+			document.getElementById("selectUserNames").appendChild(newOption);
+		}
+		function init(){
+			socket = new WebSocket("ws://localhost:8001");
+			socket.addEventListener("message",onSocketMessage);
+			document.getElementById("btnSend").addEventListener("click",onBtnSendClick);
+			document.getElementById("btnLogin").addEventListener("click",onBtnLoginClick);
+		}
+		function onBtnLoginClick(){
+			var currentUserName = document.getElementById("txtLoginName").value;
+			var msgToSend = {
+				type : "login",
+				loginName : currentUserName
+			};
+			socket.send(JSON.stringify(msgToSend));
+		}
+		function onBtnSendClick(){
+			var msg = document.getElementById("txtMessage").value;
+			var chatMsg = {
+				type : "transaction",
+				content : msg,
+				targetName : document.getElementById("selectUserNames").value
+			};
+			socket.send(JSON.stringify(chatMsg));
+		}
+	})();
+	</script>
+</head>
+<body>
+	<input type="text" name="" id="txtLoginName">
+	<input type="button" value="Login" id="btnLogin">
+	<br>
+	<input type="text" name="" id="txtMessage">
+	<select name="" id="selectUserNames">
+		<option value="All">All</option>
+	</select>
+	<input type="button" value="Send" id="btnSend">
+	<div id="divMessages"></div>
+</body>
+</html>
