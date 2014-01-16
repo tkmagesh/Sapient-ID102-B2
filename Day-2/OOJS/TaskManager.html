@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Task Manager</title>
+	<style>
+	.completed {
+		color :red;
+		text-decoration: line-through;
+		font-style: italic;
+	}
+	li {
+		cursor: pointer;
+	}
+
+	</style>
+	<script src="jquery-1.10.2.js"></script>
+	<script>
+	(function(){
+		var taskStorage = window.localStorage;
+
+		
+		function onBtnAddTaskClick(){
+			var taskName = $("#txtTask").val(),
+				newTask = addTaskToStorage(taskName);
+
+			addTaskToUi(newTask);
+			
+		}
+		
+
+		function addTaskToUi(task){
+			$("<li>")
+				.html(task.name)
+				.attr("task-id",task.id)
+				.addClass(task.isCompleted ? "completed" : "")
+				.appendTo("#ulTaskList");
+		}
+		$(function(){
+			$("#btnAddTask").on("click",onBtnAddTaskClick);
+			$("#btnRemoveCompleted").click(onBtnRemoveCompletedClick);
+			$("#ulTaskList").on("click","li",onTaskItemClick);
+			loadTasksFromStorage();
+		});
+
+		function onTaskItemClick(e){
+			$(this).toggleClass("completed");
+			toggleTaskCompletionInStorage($(this).attr("task-id"));
+		}
+		
+
+		function onBtnRemoveCompletedClick(){
+			$("#ulTaskList > li.completed").each(function(index,item){
+				var $this = $(item);
+				var taskId = $this.attr("task-id");
+				removeTaskFromStorage(taskId);
+				$this.remove();
+			});
+		}
+
+		function loadTasksFromStorage(){
+			for(var i=0;i<taskStorage.length;i++){
+				var taskId = taskStorage.key(i);
+				var task = JSON.parse(taskStorage.getItem(taskId));
+				addTaskToUi(task);
+			}
+		}
+
+		function addTaskToStorage(taskName){
+			var taskId = new Date().getTime().toString();
+			var newTask = {
+				id : taskId,
+				name : taskName,
+				isCompleted : false
+			};
+			window.localStorage.setItem(newTask.id, JSON.stringify(newTask));
+			return newTask;
+		}
+
+		function toggleTaskCompletionInStorage(taskId){
+			var taskAsString = localStorage.getItem(taskId);
+			var task = JSON.parse(taskAsString);
+			task.isCompleted = !task.isCompleted;
+			localStorage.setItem(taskId,JSON.stringify(task));
+		}
+
+		function removeTaskFromStorage(taskId){
+			window.localStorage.removeItem(taskId);
+		}
+
+		
+	})();
+	</script>
+</head>
+<body>
+	<h1>Task Manager</h1>
+	<span>Task :</span>
+	<input type="text" name="" id="txtTask">
+	<input type="button" value="Add Task" id="btnAddTask">
+	<input type="button" value="Remove Completed" id="btnRemoveCompleted">
+	<ul id="ulTaskList">
+		
+	</ul>
+</body>
+</html>
