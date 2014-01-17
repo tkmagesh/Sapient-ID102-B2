@@ -20,10 +20,9 @@
 	<script>
 	(function(){
 		var taskStorage = getTaskStorage();
-
-		taskStorage.onCountChanged = displayCount;
-		//taskStorage.onCountChanged = logCount;
-
+		taskStorage.addCountChanged(displayCount);
+		taskStorage.addCountChanged(logCount);
+		
 		function loadTasksFromStorage(){
 			var allTasks = taskStorage.getAll();
 			for(var i=0;i<allTasks.length;i++){
