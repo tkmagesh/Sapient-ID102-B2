@@ -1,4 +1,4 @@
-function getTaskStorage(){
+function getTaskStorage(fn){
 	var browserStore = window.localStorage;
 
 	function getAllTasksFromStorage(){
@@ -8,12 +8,16 @@ function getTaskStorage(){
 			var task = JSON.parse(browserStore.getItem(taskId));
 			tasks.push(task);
 		}
+		if (!!this.onCountChanged)
+			this.onCountChanged(browserStore.length);
 		return tasks;
 	}
 
 	function addTaskToStorage(taskName){
 		var newTask = new Task(taskName);
 		browserStore.setItem(newTask.id, JSON.stringify(newTask));
+		if (!!this.onCountChanged)
+			this.onCountChanged(browserStore.length);
 		return newTask;
 	}
 
@@ -27,13 +31,17 @@ function getTaskStorage(){
 
 	function removeTaskFromStorage(taskId){
 		browserStore.removeItem(taskId);
+		if (!!this.onCountChanged)
+			this.onCountChanged(browserStore.length);
 	}
 
+	
 	return {
 		addTask : addTaskToStorage,
 		removeTask : removeTaskFromStorage,
 		getAll : getAllTasksFromStorage,
-		toggleCompletion : toggleTaskCompletionInStorage
+		toggleCompletion : toggleTaskCompletionInStorage,
+		onCountChanged : undefined
 	};
 
 }

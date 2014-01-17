@@ -21,11 +21,15 @@
 	(function(){
 		var taskStorage = getTaskStorage();
 
+		taskStorage.onCountChanged = displayCount;
+		//taskStorage.onCountChanged = logCount;
+
 		function loadTasksFromStorage(){
 			var allTasks = taskStorage.getAll();
 			for(var i=0;i<allTasks.length;i++){
 				addTaskToUi(allTasks[i]);
 			}
+			//displayCount();
 		}
 
 		
@@ -34,7 +38,7 @@
 				newTask = taskStorage.addTask(taskName);
 
 			addTaskToUi(newTask);
-			
+			//displayCount();
 		}
 		
 
@@ -65,8 +69,16 @@
 				taskStorage.removeTask(taskId);
 				$this.remove();
 			});
+			//displayCount();
 		}
 
+		function displayCount(count){
+			$("#spanTaskCount").text(count);
+		}
+
+		function logCount(count){
+			console.log("The current task count = " , count);
+		}
 		
 		
 	})();
@@ -81,5 +93,8 @@
 	<ul id="ulTaskList">
 		
 	</ul>
+	<div>
+		Total Task : <span id="spanTaskCount"></span>
+	</div>
 </body>
 </html>

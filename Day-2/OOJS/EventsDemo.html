@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script>
+	window.addEventListener("DOMContentLoaded",function(){
+		var btn = document.getElementById("btnClick");
+
+		btn.addEventListener("click",fn1);
+		btn.addEventListener("click",fn2);
+	});
+	function fn1(){
+		console.log("fn1 invoked by clicking the button");
+	}
+	function fn2(){
+		console.log("fn2 invoked by clicking the button");
+	}
+	</script>
+</head>
+<body>
+	<input type="button" value="Click" id="btnClick">
+</body>
+</html>
