@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>
+	</title>
+	<script src="products.js"></script>
+	<script>
+	function sort(list,attrName){
+		for(var i=0;i<list.length-1;i++)
+			for(var j=i+1;j<list.length;j++){
+				if (list[i][attrName] > list[j][attrName]){
+					var temp = list[i];
+					list[i] = list[j];
+					list[j] = temp;
+				}
+			}
+	}
+	function sort(list,valueSelectorFn){
+		for(var i=0;i<list.length-1;i++)
+			for(var j=i+1;j<list.length;j++){
+				if (valueSelectorFn(list[i]) > valueSelectorFn(list[j])){
+					var temp = list[i];
+					list[i] = list[j];
+					list[j] = temp;
+				}
+			}
+	}
+	function sort(list,comparatorFn){
+		for(var i=0;i<list.length-1;i++)
+			for(var j=i+1;j<list.length;j++){
+				if (comparatorFn(list[i],list[j]) > 0){
+					var temp = list[i];
+					list[i] = list[j];
+					list[j] = temp;
+				}
+			}
+	}
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

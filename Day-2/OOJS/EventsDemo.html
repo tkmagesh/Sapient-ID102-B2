@@ -4,6 +4,26 @@
 	<meta charset="UTF-8">
 	<title></title>
 	<script>
+	var addEvent = (function(){
+		var dummy = document.createElement("input");
+		if (!!dummy.attachEvent){
+			return function(elem,eventName,evtHandler){
+				elem.attachEvent("on" + eventName, evtHandler);
+			}
+		} else {
+				return function(elem,eventName,evtHandler){
+					elem.addEventListener(eventName,evtHandler);
+				}
+		}
+		
+	})();
+	function addEvent(elem,eventName,evtHandler){
+		if (!!elem.attachEvent){
+			elem.attachEvent("on" + eventName, evtHandler);
+		} else {
+			elem.addEventListener(eventName,evtHandler);
+		}
+	}
 	window.addEventListener("DOMContentLoaded",function(){
 		var btn = document.getElementById("btnClick");
 

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>PubSub - Demo</title>
+	<script src="pubsub.js"></script>
+	<script>
+	window.addEventListener("DOMContentLoaded",function(){
+		var pubSub = new PubSub();
+		pubSub.subscribe('evt1',subscriber1);
+		pubSub.subscribe('evt1',subscriber2);
+		pubSub.subscribe('evt1',subscriber3);
+
+		document.getElementById("btnPublish").addEventListener("click",function(){
+			pubSub.publish('evt1');
+		});
+	});
+	function displayMessage(msg){
+		document.getElementById("divMessages").innerHTML += msg + "<br/>";
+	}
+	function subscriber1(){
+		throw new Error('intentional error');
+		displayMessage("Subscriber1 is triggered");
+	}
+	function subscriber2(){
+		function doWork(){
+			for(var i=0;i<100000;i++)
+				for(var j=0;j<1000;j++)
+					for(var k=0;k<100;k++)
+					{}
+		}
+		doWork();
+		displayMessage("Subscriber2 is triggered");
+	}
+
+	function subscriber3(){
+		displayMessage("Subscriber3 is triggered");
+	}
+
+	</script>
+</head>
+<body>
+	<input type="button" value="PublishEvent" id="btnPublish">
+	<div id="divMessages"></div>
+</body>
+</html>
