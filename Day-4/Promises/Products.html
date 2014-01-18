@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Products</title>
+	<script src="Products.js"></script>
+	<script>
+	(function(){
+		window.addEventListener("DOMContentLoaded",init);
+		var products = new Products();
+		function init(){
+			document.getElementById("selectSortOrder").addEventListener("change",onSortOrderChanged);
+			loadProducts(products.items);
+		}
+		function loadProducts(items){
+			var htmlTemplate = "<tr><td>{id}</td><td>{name}</td><td>{cost}</td><td>{units}</td></tr>";
+			var html = "";
+			for(var i=0;i<items.length;i++){
+				html += htmlTemplate
+					.replace("{id}",items[i].id)
+					.replace("{name}",items[i].name)
+					.replace("{cost}",items[i].cost)
+					.replace("{units}",items[i].units)
+			}
+			var tbody = document.querySelector("#tblProducts>tbody");
+			tbody.innerHTML = html;
+		}
+		function onSortOrderChanged(){
+			var sortOrder = document.getElementById("selectSortOrder").value;
+			products.sort(sortOrder).then(loadProducts);
+		}
+	})();
+	</script>
+</head>
+<body>
+	<span>Sort :</span>
+	<select name="" id="selectSortOrder">
+		<option value="id">id</option>
+		<option value="name">name</option>
+		<option value="cost">cost</option>
+		<option value="units">units</option>
+	</select>
+	<table id="tblProducts">
+		<thead>
+			<tr>
+			<th>Id</th>
+			<th>name</th>
+			<th>cost</th>
+			<th>units</th>
+		</thead>
+		<tbody>
+			
+		</tbody>
+	</table>
+</body>
+</html>
