@@ -18,9 +18,11 @@ function PubSub(){
 		if (!!subscribers[evtName]){
 			var evtSubscribers = subscribers[evtName];
 			for(var i=0;i<evtSubscribers.length;i++)
-				setTimeout(function(){
-					evtSubscribers[i].apply(this,argList);
-				});
+				setTimeout((function(x){
+					return function(){
+						evtSubscribers[x].apply(this,argList);
+					}
+				})(i));
 		}
 	}
 }
