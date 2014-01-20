@@ -1,0 +1,17 @@
+{
+  "name": "sap-calculator",
+  "version": "0.1.0",
+  "description": "A simple module for demonstrating modularization in Node.js",
+  "main": "calculator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "demo",
+    "test",
+    "modules",
+    "npm"
+  ],
+  "author": "Magesh K",
+  "license": "BSD-2-Clause"
+}

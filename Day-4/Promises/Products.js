@@ -9,7 +9,6 @@ function Products(){
 	];
 	this.items = items;
 	this.sort = function(attrName){
-		var that = this;
 		return new Promise(function(resolve,reject){
 			setTimeout(function(){
 				for(var i=0;i<items.length-1;i++)
