@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Salary Calculator</title>
+	<link rel="stylesheet" href="styles/style.css">
+	<script>
+	(function(){
+		var txtBasic, txtHra, txtDa, spanTax, btnCalculate, rangeTax, divResult;
+
+		window.addEventListener("DOMContentLoaded",init);
+
+		function init(){
+			txtBasic = document.getElementById("txtBasic");
+			txtHra = document.getElementById("txtHra");
+			txtDa = document.getElementById("txtDa");
+			rangeTax = document.getElementById("rangeTax");
+			spanTax = document.getElementById("spanTax");
+			btnCalculate = document.getElementById("btnCalculate");
+			divResult = document.getElementById("divResult");
+
+			btnCalculate.addEventListener("click",onBtnCalculateClick);
+			rangeTax.addEventListener("change",onRangeTaxChange);
+		}
+		function onBtnCalculateClick(){
+			var basic = parseFloat(txtBasic.value),
+				hra = parseFloat(txtHra.value),
+				da = parseFloat(txtDa.value),
+				tax = parseFloat(rangeTax.value),
+				gross = basic + hra + da,
+				taxToBeDeducted = gross * (tax / 100),
+				net = gross - taxToBeDeducted;
+			divResult.innerHTML = net;
+		}
+		function onRangeTaxChange(){
+			spanTax.innerText = "[{tax}%]".replace("{tax}",rangeTax.value);
+		}
+	})();
+	</script>
+</head>
+<body>
+
+<div id="content">
+		<div>
+		<label for="txtBasic">Basic :</label><input type="text" name="txtBasic" id="txtBasic">	
+	</div>
+	<div>
+	<label for="txtHra">HRA :</label><input type="text" name="txtHra" id="txtHra">	
+	</div>
+	<div>
+	<label for="txtDa">DA :</label><input type="text" name="txtDa" id="txtDa">	
+	</div>
+	<div>
+	<label for="rangeTax">Tax :</label><input type="range" name="rangeTax" id="rangeTax" value="10"><span id="spanTax">[10%]</span>	
+	</div>
+	<div>
+		<input type="button" value="Calculate" id="btnCalculate">
+	</div>
+	<div>
+		<div id="divResult">
+			[Salary]
+		</div>
+	</div>
+</div>
+</body>
+</html>

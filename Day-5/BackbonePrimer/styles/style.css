@@ -1,0 +1,12 @@
+label{
+		width: 75px;
+		float : left;
+		display : block;
+	}
+	#content{
+		width : 350px;
+	}
+	
+	#divResult{
+		text-align: center;
+	}
