@@ -9,4 +9,9 @@ label{
 	
 	#divResult{
 		text-align: center;
+		float : left;
+	}
+	#newDiv{
+		font-size: 32pt;
+		color : red;
 	}

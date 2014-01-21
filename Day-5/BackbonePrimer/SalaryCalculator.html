@@ -4,69 +4,10 @@
 	<meta charset="UTF-8">
 	<title>Salary Calculator</title>
 	<link rel="stylesheet" href="styles/style.css">
+	<script src="SalaryCalculatorViewModel.js"></script>
 	<script>
-	function SalaryCalculator(){
-		var _basic = 0
-			, _hra = 0
-			, _da = 0
-			, _tax = 0
-			, _salary = 0
-			, _salaryChangedCallbacks = [];
-
-		this.addOnSalaryChanged = function(callback){
-			_salaryChangedCallbacks.push(callback);
-		};
-
-		function triggerSalaryChanged(){
-			for(var i=0;i<_salaryChangedCallbacks.length;i++){
-				_salaryChangedCallbacks[i]();
-			}
-		}
-
-		this.basic = function(val){
-			if (!isNaN(1 * val)) {
-				_basic = 1 * val;
-				return;
-			}
-			return _basic;
-		};
-		this.hra = function(val){
-			if (!isNaN(1 * val)) {
-				_hra = 1 * val;
-				return;
-			}
-			return _hra;
-		};
-		this.da = function(val){
-			if (!isNaN(1 * val)) {
-				_da = 1 * val;
-				return;
-			}
-			return _da;
-		};
-		this.tax = function(val){
-			if (!isNaN(1 * val)) {
-				_tax = 1 * val;
-				return;
-			}
-			return _tax;
-		};
-
-		this.calculate = function(){
-			var gross = this.basic() + this.hra() + this.da(),
-				taxToBeDeducted = gross * (this.tax() / 100);
-			setSalary(gross - taxToBeDeducted);
-		};
-		this.salary = function(){
-			return _salary;
-		}
-
-		function setSalary(val){
-			_salary = val;
-			triggerSalaryChanged();
-		}
-	}
-	var calculator = new SalaryCalculator();
+	
+	var calculator = new SalaryCalculatorViewModel();
 	(function(){
 		var txtBasic
 			, txtHra
@@ -91,14 +32,33 @@
 			txtBasic.addEventListener("change",onTxtBasicChange);
 			txtHra.addEventListener("change",onTxtHraChange);
 			txtDa.addEventListener("change",onTxtDaChange);
-			rangeTax.addEventListener("change",onRangeTaxChange_1);
+			rangeTax.addEventListener("change",onRangeTaxChange);
 
 			btnCalculate.addEventListener("click",onBtnCalculateClick);
-			rangeTax.addEventListener("change",onRangeTaxChange_2);
 
-			calculator.addOnSalaryChanged(onSalaryChanged);
+			calculator.addOnChanged('basic',onBasicChanged);
+			calculator.addOnChanged('hra',onHraChanged);
+			calculator.addOnChanged('da',onDaChanged);
+			calculator.addOnChanged('tax',onTaxChanged);
+			calculator.addOnChanged('salary',onSalaryChanged);
+			calculator.addOnChanged('isSalaryCalculatable',updateCalculateButtonState);
 		}
 
+		function onBasicChanged(){
+			txtBasic.value = calculator.basic();
+		}
+
+		function onHraChanged(){
+			txtHra.value = calculator.hra();
+		}
+
+		function onDaChanged(){
+			txtDa.value = calculator.da();
+		}
+
+		function updateCalculateButtonState(){
+			btnCalculate.disabled = !calculator.isSalaryCalculatable();
+		}
 
 		function onTxtBasicChange(){
 			calculator.basic(this.value);
@@ -109,7 +69,7 @@
 		function onTxtDaChange(){
 			calculator.da(this.value);
 		}
-		function onRangeTaxChange_1(){
+		function onRangeTaxChange(){
 			calculator.tax(this.value);
 		}
 		function onBtnCalculateClick(){
@@ -118,8 +78,9 @@
 		function onSalaryChanged(){
 			divResult.innerHTML = calculator.salary();
 		}
-		function onRangeTaxChange_2(){
-			spanTax.innerText = "[{tax}%]".replace("{tax}",rangeTax.value);
+		function onTaxChanged(){
+			rangeTax.value = calculator.tax();
+			spanTax.innerText = "[{tax}%]".replace("{tax}",calculator.tax());
 		}
 	})();
 	</script>
@@ -140,13 +101,16 @@
 	<label for="rangeTax">Tax :</label><input type="range" name="rangeTax" id="rangeTax" value="0"><span id="spanTax">[Tax%]</span>	
 	</div>
 	<div>
-		<input type="button" value="Calculate" id="btnCalculate">
+		<input type="button" value="Calculate" id="btnCalculate" disabled="true">
 	</div>
 	<div>
 		<div id="divResult">
 			[Salary]
 		</div>
 	</div>
+</div>
+<div id="newDiv">
+	
 </div>
 </body>
 </html>
