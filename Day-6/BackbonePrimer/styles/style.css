@@ -1,0 +1,25 @@
+label{
+		width: 75px;
+		float : left;
+		display : block;
+	}
+	#content{
+		width : 350px;
+	}
+	
+	#divResult{
+		text-align: center;
+		
+	}
+	#newDiv{
+		font-size: 32pt;
+		color : red;
+	}
+#divSalEq {
+	margin-top : 10px;
+	border : 1px solid blue;
+	border-radius: 3px;
+	padding: 10px;
+	font-size: 22px;
+	background-color: lightblue;
+}

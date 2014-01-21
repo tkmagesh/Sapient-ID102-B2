@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Salary Calculator</title>
+	<link rel="stylesheet" href="styles/style.css">
+	<script src="scripts/lib/jquery.js"></script>
+	<script src="scripts/app/SalaryCalculatorViewModel.js"></script>
+	<script src="scripts/app/SalaryCalculatorView.js"></script>
+	<script>
+	
+	$(function(){
+		window.calculator = new SalaryCalculatorViewModel();
+		window.calculatorView = new SalaryCalculatorView("#calculatorTemplate",calculator);
+		calculatorView.init();
+		$(document.body).append(calculatorView.$root);
+	});
+
+	</script>
+	<script id="calculatorTemplate" type="text/template">
+		<div id="content">
+		<div>
+		<label for="txtBasic">Basic :</label><input type="text" name="txtBasic" id="txtBasic">	
+	</div>
+	<div>
+	<label for="txtHra">HRA :</label><input type="text" name="txtHra" id="txtHra">	
+	</div>
+	<div>
+	<label for="txtDa">DA :</label><input type="text" name="txtDa" id="txtDa">	
+	</div>
+	<div>
+	<label for="rangeTax">Tax :</label><input type="range" name="rangeTax" id="rangeTax" value="0"><span id="spanTax">[Tax%]</span>	
+	</div>
+	<div>
+		<input type="button" value="Calculate" id="btnCalculate" disabled="true">
+	</div>
+	<div>
+		<div id="divResult">
+			[Salary]
+		</div>
+	</div>
+</div>
+<div id="divSalEq">
+	10000 + 2000 + 30000 - 3500 = 11500
+</div>
+	</script>
+</head>
+<body>
+
+
+</body>
+</html>
