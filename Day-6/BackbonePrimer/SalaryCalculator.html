@@ -9,13 +9,13 @@
 	<script src="scripts/app/SalaryCalculatorView.js"></script>
 	<script>
 	
-	$(function(){
+/*	$(function(){
 		window.calculator = new SalaryCalculatorViewModel();
 		window.calculatorView = new SalaryCalculatorView("#calculatorTemplate",calculator);
 		calculatorView.init();
 		$(document.body).append(calculatorView.$root);
 	});
-
+*/
 	</script>
 	<script id="calculatorTemplate" type="text/template">
 		<div id="content">
@@ -40,13 +40,23 @@
 		</div>
 	</div>
 </div>
-<div id="divSalEq">
-	10000 + 2000 + 30000 - 3500 = 11500
-</div>
+
+	</script>
+	<script id="calculatorCollectionTemplate" type="text/template">
+		<div id="divSalaryCollection">
+			<div id="divSalaryView">
+			
+
+			</div>
+			<input type="button" value="New" id="btnNew">
+			<input type="button" value="Save" id="btnSave">
+			<div id="divSalaryList">
+		
+			</div>
+		</div>
 	</script>
 </head>
 <body>
-
 
 </body>
 </html>
