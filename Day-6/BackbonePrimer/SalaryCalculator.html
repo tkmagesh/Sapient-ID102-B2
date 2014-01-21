@@ -7,15 +7,18 @@
 	<script src="scripts/lib/jquery.js"></script>
 	<script src="scripts/app/SalaryCalculatorViewModel.js"></script>
 	<script src="scripts/app/SalaryCalculatorView.js"></script>
+	<script src="scripts/app/SalaryCalculatorViewModelCollection.js"></script>
+	<script src="scripts/app/SalaryCalculatorCollectionView.js"></script>
+	<script src="scripts/app/SalaryCalculatorEqView.js"></script>
 	<script>
 	
-/*	$(function(){
-		window.calculator = new SalaryCalculatorViewModel();
-		window.calculatorView = new SalaryCalculatorView("#calculatorTemplate",calculator);
-		calculatorView.init();
-		$(document.body).append(calculatorView.$root);
+	$(function(){
+		window.calculatorCollection = new SalaryCalculatorViewModelCollection();
+		window.calculatorCollectionView = new SalaryCalculatorCollectionView("#calculatorCollectionTemplate",calculatorCollection);
+		calculatorCollectionView.init();
+		$(document.body).append(calculatorCollectionView.$root);
 	});
-*/
+
 	</script>
 	<script id="calculatorTemplate" type="text/template">
 		<div id="content">
@@ -54,6 +57,12 @@
 		
 			</div>
 		</div>
+	</script>
+	<script id="divSalEqTemplate" type="text/template">
+	<div class="divSalEq">
+	{basic} + {hra} + {da} - {tax}% = {salary}
+	<input type="button" id="btnDelete" value="Delete"/>
+	</div>
 	</script>
 </head>
 <body>

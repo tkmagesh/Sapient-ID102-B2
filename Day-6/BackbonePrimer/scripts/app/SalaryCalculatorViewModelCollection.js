@@ -2,28 +2,31 @@ function SalaryCalculatorViewModelCollection(){
 	var _list = [];
 	var _onChangeSubscribers = {};
 
-	function triggerChanged(attrName){
+	function triggerChanged(attrName,argListAsArray){
 		var callbacks = _onChangeSubscribers[attrName] || [];
 		for(var i=0;i<callbacks.length;i++){
-			callbacks[i]();
+			callbacks[i].apply(this,argListAsArray);
 		}
 	}
 
-	this.addOnChanged = function(attrName, callback){
+	this.addSubscriber = function(attrName, callback){
 		if (!_onChangeSubscribers[attrName]) _onChangeSubscribers[attrName] = [];
 		_onChangeSubscribers[attrName].push(callback);
 	};
 
 	this.add = function(model){
 		_list.push(model);
-		triggerChanged('added');
+		
+		triggerChanged('added',[model]);
 	};
 	this.remove = function(model){
 		var indexOfModel = _list.indexOf(model);
 		if (indexOfModel > -1){
 			_list.splice(indexOfModel,1);
 		}
-		triggerChanged('removed');
+		triggerChanged('removed',[model]);
 	};
-	this.list = _list;
+	this.list = function(){
+		return _list;	
+	};
 }

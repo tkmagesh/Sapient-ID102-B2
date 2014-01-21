@@ -13,10 +13,10 @@ function SalaryCalculatorViewModel(){
 		_onChangeSubscribers[attrName].push(callback);
 	};
 
-	function triggerChanged(attrName){
+	function triggerChanged(attrName,argListAsArray){
 		var callbacks = _onChangeSubscribers[attrName] || [];
 		for(var i=0;i<callbacks.length;i++){
-			callbacks[i]();
+			callbacks[i].apply(this,argListAsArray);
 		}
 	}
 
@@ -71,6 +71,10 @@ function SalaryCalculatorViewModel(){
 
 	this.salary = function(){
 		return _salary;
+	};
+
+	this.destroy = function(){
+		triggerChanged('destroy',[this]);
 	}
 
 	function updateIsSalaryCalculatable(){
