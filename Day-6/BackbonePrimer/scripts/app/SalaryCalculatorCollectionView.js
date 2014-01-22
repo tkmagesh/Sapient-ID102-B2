@@ -8,7 +8,7 @@ function SalaryCalculatorCollectionView(templateId,collection){
 		this.$root.find("#btnSave").click(onBtnSaveClick);
 
 		collection.addSubscriber('added',onNewCalculatorAdded);
-		collection.addSubscriber('removed',onCalculatorRemoved);
+		
 	};
 	var calculatorInContext = undefined;
 	function onBtnNewClick(){
@@ -28,7 +28,5 @@ function SalaryCalculatorCollectionView(templateId,collection){
 		that.$root.find("#divSalaryList").append(calculatorEqView.$root);
 		console.log("A new calculator model is added to the collection");
 	}
-	function onCalculatorRemoved(removedCalculator){
-		collection.remove(calculator);
-	}
+	
 }

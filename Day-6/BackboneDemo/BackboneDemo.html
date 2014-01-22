@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Backbone Demo</title>
+	<script src="jquery.js"></script>
+	<script src="underscore.js"></script>
+	<script src="backbone.js"></script>
+	<script id="calculatorTemplate" type="text/template">
+	<div id="content">
+		<div>
+		<label for="txtBasic">Basic :</label><input type="text" name="txtBasic" id="txtBasic" value="{basic}">	
+		</div>
+		<div>
+		<label for="txtHra">HRA :</label><input type="text" name="txtHra" id="txtHra" value="{hra}">	
+		</div>
+		<div>
+		<label for="txtDa">DA :</label><input type="text" name="txtDa" id="txtDa" value="{da}">	
+		</div>
+		<div>
+		<label for="rangeTax">Tax :</label><input type="range" name="rangeTax" id="rangeTax" value="{tax}"><span id="spanTax">{tax}%</span>	
+		</div>
+		<div>
+			<input type="button" value="Calculate" id="btnCalculate" >
+		</div>
+		<div>
+			<div id="divResult">
+				{salary}
+			</div>
+		</div>
+	</div>
+	</script>
+	<script>
+	window.CalculatorModel = Backbone.Model.extend({
+		defaults : {
+			basic : 0,
+			hra : 0,
+			da : 0,
+			tax : 10,
+			salary : 0
+		},
+		calculate : function(){
+			var gross = this.get('basic') + this.get('hra') + this.get('da');
+			var taxable = gross * (this.get('tax')/100);
+			this.set('salary',gross - taxable);
+		}
+	});
+	window.CalculatorView = Backbone.View.extend({
+		events : {
+			'change :text' : 'syncModel',
+			'change input[type=range]' : 'syncModel',
+			'click #btnCalculate' : 'calculateSalary'
+		},
+		calculateSalary : function(){
+			this.model.calculate();
+		},
+		syncModel : function(){
+			this.model.set('basic',parseInt(this.$el.find('#txtBasic').val()));
+			this.model.set('hra',parseInt(this.$el.find('#txtHra').val()));
+			this.model.set('da',parseInt(this.$el.find('#txtDa').val()));
+			this.model.set('tax',parseInt(this.$el.find('#rangeTax').val()));
+		},
+		initialize : function(){
+			this.listenTo(this.model,'change',this.updateView);
+		},
+		updateView : function(){
+			this.$el.find("#txtBasic").val(this.model.get('basic'));
+			this.$el.find("#txtHra").val(this.model.get('hra'));
+			this.$el.find("#txtDa").val(this.model.get('da'));
+			this.$el.find("#rangeTax").val(this.model.get('tax'));
+			this.$el.find("#spanTax").text(this.model.get('tax'));
+			this.$el.find("#divResult").text(this.model.get('salary'));
+		},
+		render : function(){
+			
+			var content = $(this.template).html();
+			this.$el.html(content);
+			return this;
+		},
+		template : "#calculatorTemplate"
+	});
+	$(function(){
+		window.calculator = new CalculatorModel();
+		window.calculatorView = new CalculatorView({
+			model : window.calculator
+		});
+		calculatorView.render().$el.appendTo(document.body);
+	});
+	</script>
+</head>
+<body>
+	
+</body>
+</html>
