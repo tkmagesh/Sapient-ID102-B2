@@ -9,16 +9,16 @@
 	<script id="calculatorTemplate" type="text/template">
 	<div id="content">
 		<div>
-		<label for="txtBasic">Basic :</label><input type="text" name="txtBasic" id="txtBasic" value="{basic}">	
+		<label for="txtBasic">Basic :</label><input type="text" name="txtBasic" id="txtBasic" value="">	
 		</div>
 		<div>
-		<label for="txtHra">HRA :</label><input type="text" name="txtHra" id="txtHra" value="{hra}">	
+		<label for="txtHra">HRA :</label><input type="text" name="txtHra" id="txtHra" value="">	
 		</div>
 		<div>
-		<label for="txtDa">DA :</label><input type="text" name="txtDa" id="txtDa" value="{da}">	
+		<label for="txtDa">DA :</label><input type="text" name="txtDa" id="txtDa" value="">	
 		</div>
 		<div>
-		<label for="rangeTax">Tax :</label><input type="range" name="rangeTax" id="rangeTax" value="{tax}"><span id="spanTax">{tax}%</span>	
+		<label for="rangeTax">Tax :</label><input type="range" name="rangeTax" id="rangeTax" value=""><span id="spanTax"></span>	
 		</div>
 		<div>
 			<input type="button" value="Calculate" id="btnCalculate" >
@@ -72,9 +72,9 @@
 			this.$el.find("#divResult").text(this.model.get('salary'));
 		},
 		render : function(){
-			
 			var content = $(this.template).html();
 			this.$el.html(content);
+			this.updateView();
 			return this;
 		},
 		template : "#calculatorTemplate"
