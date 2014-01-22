@@ -6,9 +6,18 @@
 	<script src="underscore.js"></script>
 	<script src="jquery.js"></script>
 	<script src="backbone.js"></script>
-	<script id="productsListTemplate" type="text/template">
+	<script src="handlebars-v1.3.0.js"></script>
+	<script id="productsListTemplate" type="text/x-handlerbars-template">
 		<input type="button" value="Load Products" id="btnLoadProducts">
-		<table></table>
+		<table>
+			{{#each products}}
+				<tr>
+					<td>{{this.id}}</td>
+					<td>{{this.name}}</td>
+					<td>{{this.cost}}</td>
+				</tr>
+			{{/each}}
+		</table>
 	</script>
 	<script>
 		var ProductModel = Backbone.Model.extend({
@@ -29,19 +38,15 @@
 				"click #btnLoadProducts" : "loadProducts"
 			},
 			initialize : function(){
-				this.listenTo(this.collection,"all",this.addNewProduct);
-			},
-			addNewProduct : function(){
-				this.$el.html($(this.template).html());
-				var that = this;
-				this.collection.each(function(p){
-					var template = "<tr><td>{id}</td><td>{name}</td><td>{cost}</td></tr>"
-				that.$el.append(template.replace("{id}",p.get('id')).replace("{name}",p.get('name')).replace("{cost}",p.get('cost')));	
-				});
-				
+				this.listenTo(this.collection,"all",this.render);
+				var source   = $(this.template).html();
+				this.compiledTemplate = Handlebars.compile(source);
 			},
 			render : function(){
-				this.$el.html($(this.template).html());
+				var dataToBind = {
+					products : this.collection.toJSON()
+				};
+				this.$el.html(this.compiledTemplate(dataToBind));
 				return this;
 			},
 			loadProducts : function(){
