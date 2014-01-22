@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Products Manager</title>
+	<script src="underscore.js"></script>
+	<script src="jquery.js"></script>
+	<script src="backbone.js"></script>
+	<script id="productsListTemplate" type="text/template">
+		<input type="button" value="Load Products" id="btnLoadProducts">
+		<table></table>
+	</script>
+	<script>
+		var ProductModel = Backbone.Model.extend({
+		  defaults : {
+		     id : undefined,
+		     name : "",
+		     cost : 0
+		  }
+		});
+		var ProductsCollection = Backbone.Collection.extend({
+		   model : ProductModel,
+		   url : "http://localhost:8081/products"
+		});
+
+		var ProductsCollectionView = Backbone.View.extend({
+			template : "#productsListTemplate",
+			events : {
+				"click #btnLoadProducts" : "loadProducts"
+			},
+			initialize : function(){
+				this.listenTo(this.collection,"all",this.addNewProduct);
+			},
+			addNewProduct : function(){
+				this.$el.html($(this.template).html());
+				var that = this;
+				this.collection.each(function(p){
+					var template = "<tr><td>{id}</td><td>{name}</td><td>{cost}</td></tr>"
+				that.$el.append(template.replace("{id}",p.get('id')).replace("{name}",p.get('name')).replace("{cost}",p.get('cost')));	
+				});
+				
+			},
+			render : function(){
+				this.$el.html($(this.template).html());
+				return this;
+			},
+			loadProducts : function(){
+				this.collection.fetch();
+			}
+		});
+
+		var products = new ProductsCollection();
+		var productsView = new ProductsCollectionView({
+			collection : products
+		});
+
+
+		$(function(){
+			productsView.render().$el.appendTo(document.body);
+		});
+
+	</script>
+</head>
+<body>
+	<h1>Products List</h1>
+	<hr>
+	
+</body>
+</html>
