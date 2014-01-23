@@ -1,8 +1,8 @@
 var restify = require('restify');
 var products = [
-	{id : 1, name : "pen", cost : 10},
-	{id : 2, name : "pencil", cost : 20},
-	{id : 3, name : "marker", cost : 30}
+	{id : 1, name : "pen", cost : 10, isDiscontinued : false},
+	{id : 2, name : "pencil", cost : 20, isDiscontinued : false},
+	{id : 3, name : "marker", cost : 30, isDiscontinued : false}
 ];
 
 function getNextProductId(){
@@ -30,6 +30,7 @@ function updateProduct(req,res,next){
 		if (products[i].id === req.params.id) {
 			products[i].name = req.params.name;
 			products[i].cost = req.params.cost;
+			products[i].isDiscontinued = req.params.isDiscontinued;
 			res.send(products[i]);
 			//break;
 		}

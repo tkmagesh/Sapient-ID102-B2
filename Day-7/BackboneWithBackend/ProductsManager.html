@@ -3,57 +3,51 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Products Manager</title>
+	<style>
+	td{
+		padding : 5px;
+		border : 1px solid black;
+	}
+	table{
+		border-collapse: collapse;
+		
+	}
+	</style>
 	<script src="underscore.js"></script>
 	<script src="jquery.js"></script>
 	<script src="backbone.js"></script>
 	<script src="handlebars-v1.3.0.js"></script>
+	<script src="ProductModel.js"></script>
+	<script src="ProductView.js"></script>
+	<script src="ProductsCollection.js"></script>
+	<script src="ProductsCollectionView.js"></script>
 	<script id="productsListTemplate" type="text/x-handlerbars-template">
 		<input type="button" value="Load Products" id="btnLoadProducts">
 		<table>
-			{{#each products}}
-				<tr>
-					<td>{{this.id}}</td>
-					<td>{{this.name}}</td>
-					<td>{{this.cost}}</td>
-				</tr>
-			{{/each}}
+			
 		</table>
+		<div>
+			Total #: <span id="spanTotal"></span> 
+			
+		</div>
+		<div>
+			Discontinued #: <span id="spanDiscontinued"></span>
+		</div>
+	</script>
+	<script id="productTemplate" type="text/x-handlerbars-template">
+
+			<td>{{this.id}}</td>
+			<td>{{this.name}}</td>
+			<td>{{this.cost}}</td>
+			{{#if this.isDiscontinued}}
+				<td></td>
+			{{else}}
+				<td><input type="button" value="Discontinue" id="btnDiscontinue"></td>
+			{{/if}}
+			
+			
 	</script>
 	<script>
-		var ProductModel = Backbone.Model.extend({
-		  defaults : {
-		     id : undefined,
-		     name : "",
-		     cost : 0
-		  }
-		});
-		var ProductsCollection = Backbone.Collection.extend({
-		   model : ProductModel,
-		   url : "http://localhost:8081/products"
-		});
-
-		var ProductsCollectionView = Backbone.View.extend({
-			template : "#productsListTemplate",
-			events : {
-				"click #btnLoadProducts" : "loadProducts"
-			},
-			initialize : function(){
-				this.listenTo(this.collection,"all",this.render);
-				var source   = $(this.template).html();
-				this.compiledTemplate = Handlebars.compile(source);
-			},
-			render : function(){
-				var dataToBind = {
-					products : this.collection.toJSON()
-				};
-				this.$el.html(this.compiledTemplate(dataToBind));
-				return this;
-			},
-			loadProducts : function(){
-				this.collection.fetch();
-			}
-		});
-
 		var products = new ProductsCollection();
 		var productsView = new ProductsCollectionView({
 			collection : products
