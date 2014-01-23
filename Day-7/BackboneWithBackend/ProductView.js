@@ -19,7 +19,7 @@ var ProductView = Backbone.View.extend({
 		console.log(arguments[0],arguments);
 	},
 	render : function(){
-		this.$el.append(this.compiledTemplate(this.model.toJSON()));
+		this.$el.html(this.compiledTemplate(this.model.toJSON()));
 		return this;
 	},
 	showHide : function(what){
