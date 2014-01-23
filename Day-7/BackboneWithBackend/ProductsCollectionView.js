@@ -1,13 +1,16 @@
 var ProductsCollectionView = Backbone.View.extend({
 			template : "#productsListTemplate",
 			events : {
-				"click #btnLoadProducts" : "loadProducts"
 			},
 			initialize : function(){
-				this.listenTo(this.collection,"all",this.render);
+				this.listenTo(this.collection,"add",this.render);
+				//this.listenTo(this.collection,"all",this.showWhat);
 				var source   = $(this.template).html();
 				this.compiledTemplate = Handlebars.compile(source);
 				this.collection.fetch();
+			},
+			showWhat : function(){
+				console.log(arguments[0],arguments);
 			},
 			render : function(){
 				var that = this;
@@ -23,7 +26,19 @@ var ProductsCollectionView = Backbone.View.extend({
 				}).length);
 				return this;
 			},
-			loadProducts : function(){
-				this.collection.fetch();
-			}
+			showDiscontinued : function(){
+				this.collection.each(function(m){
+					m.trigger('visibility','discontinued');
+				});
+			},
+			showAll : function(){
+				this.collection.each(function(m){
+					m.trigger('visibility','all');
+				});
+			},
+			showActive : function(){
+				this.collection.each(function(m){
+					m.trigger('visibility','active');
+				});
+			},
 		});

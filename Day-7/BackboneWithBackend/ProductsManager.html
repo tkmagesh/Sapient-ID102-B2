@@ -22,7 +22,7 @@
 	<script src="ProductsCollection.js"></script>
 	<script src="ProductsCollectionView.js"></script>
 	<script id="productsListTemplate" type="text/x-handlerbars-template">
-		<input type="button" value="Load Products" id="btnLoadProducts">
+		
 		<table>
 			
 		</table>
@@ -52,10 +52,33 @@
 		var productsView = new ProductsCollectionView({
 			collection : products
 		});
+		var AppRoutes = Backbone.Router.extend({
+			routes : {
+				'*showWhat' : "show"
+			},
+			show : function(showWhat){
+				switch (showWhat){
+					case "all" :
+						productsView.showAll();
+						break;
+					case  "active" :
+						productsView.showActive();
+						break;
+					case "discontinued" :
+						productsView.showDiscontinued();
+						break;
+					default :
+						productsView.showAll();
+				}
+			}
+		});
+		var router = new AppRoutes();
 
 
 		$(function(){
 			productsView.render().$el.appendTo(document.body);
+			
+			Backbone.history.start();
 		});
 
 	</script>
