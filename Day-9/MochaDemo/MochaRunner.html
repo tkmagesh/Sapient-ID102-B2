@@ -2,18 +2,21 @@
 <head>
   <meta charset="utf-8">
   <title>Mocha Tests</title>
-  <link rel="stylesheet" href="mocha.css" />
+  <link rel="stylesheet" href="styles/mocha.css" />
 </head>
 <body>
   <div id="mocha"></div>
-  <script src="jquery.js"></script>
-  <script src="expect.js"></script>
-  <script src="mocha.js"></script>
+  <script src="lib/jquery.js"></script>
+  <script src="lib/chai.js"></script>
+  <script src="lib/mocha.js"></script>
+  <script src="lib/sinon-1.7.3.js"></script>
+  <script src="lib/sinon-chai.js"></script>
   <script>mocha.setup('bdd')</script>
   <script>
   describe("some component",function(){
     it("should exist",function(){
-      expect(true).to.be(true);
+      var expect = chai.expect;
+      expect(true).to.equal(true);
 
     });
   });
