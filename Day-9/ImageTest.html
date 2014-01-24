@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+	div {
+		position: absolute;
+		top: 100px;
+		left : 100px;
+		height : 100px;
+		width : 100px;
+
+	}
+	#divRed{
+		background-color: white;
+	}
+	#divBlue{
+		background-color: black;
+	}
+
+	</style>
+</head>
+<body>
+	<div id="divRed"></div>
+	<div id="divBlue"></div>
+	<input type="button" value="Morph" id="btnMorph">
+	<script>
+	document.getElementById("btnMorph").onclick = function(){
+		var currIteration = 0, maxIteration = 100;
+		var redOpacity = 0, blueOpacity = 1, deltaOpacity = 1 / maxIteration;
+		var divRed = document.getElementById("divRed"),
+			divBlue = document.getElementById("divBlue");
+		var timer = setInterval(function(){
+			divRed.style.opacity = redOpacity;
+			divBlue.style.opacity = blueOpacity;
+			redOpacity += deltaOpacity;
+			blueOpacity -= deltaOpacity;
+			if (redOpacity >= 0.5)
+				clearInterval(timer);
+		},10);
+	}
+	</script>
+</body>
+</html>
