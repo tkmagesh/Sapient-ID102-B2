@@ -1,0 +1,1 @@
+define(["backbone","models/ProductModel"],function(a,b){var c=a.Collection.extend({model:b,url:"http://localhost:8081/products"});return c});

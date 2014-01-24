@@ -1,0 +1,1 @@
+define(["backbone"],function(a){var b=a.Model.extend({defaults:{id:void 0,name:"",cost:0,isDiscontinued:!1},discontinue:function(){this.set("isDiscontinued",!0),this.save()}});return b});

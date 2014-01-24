@@ -1,0 +1,9 @@
+
+<td>{{this.id}}</td>
+<td>{{this.name}}</td>
+<td>{{this.cost}}</td>
+{{#if this.isDiscontinued}}
+	<td></td>
+{{else}}
+	<td><input type="button" value="Discontinue" id="btnDiscontinue"></td>
+{{/if}}

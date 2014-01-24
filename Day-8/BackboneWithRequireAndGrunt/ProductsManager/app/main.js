@@ -20,6 +20,7 @@ require.config({
 	    }
 	}
 });
+console.log('watch testing');
 require(['jquery',
 		'backbone',
 		'routes/appRoute'
